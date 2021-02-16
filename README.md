@@ -1,7 +1,7 @@
 # Temperature_Mapping
 
 ![2019-09-10](https://user-images.githubusercontent.com/78721353/108019527-474bde80-6fcf-11eb-83b0-63e0d6051483.png)
-## Figure 1: Example Heatmap Using KNN
+### Figure 1: Example Heatmap Using KNN
 
 ## Motivation 
 Mining companies have an interest in understanding the climate and enviroment of the area they are operating in. A data driven view of the study area allows companies to understand their impact on the land and best pratices to mitigate it. For this project we had developed a dataset of timeseries temperature data using 32 monitoring stations, they had been operating across most of 2019 and 2020. Using a KNN algorithem the temperature was predicted for the entire study area. We also compared the predicted data to high res infrared photos from satallites, to validate and correct for error. This project was a proof of concept, and the tools developed here would be applied in many more projects. 
