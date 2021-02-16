@@ -11,12 +11,12 @@ library("raster")
 generate_frame = FALSE
 set.seed(123)
 file.names <- dir(path_data, pattern ="csv")
-path_data = "C:/Users/dmcallister/Desktop/Thermal_map_camera/Temp_data"
-path_out = "C:/Users/dmcallister/Desktop/Thermal_map_camera/Temp_processed"
-raster_path = "C:/Users/dmcallister/Desktop/Thermal_map_camera/Rasters"
-heat_path = "C:/Users/dmcallister/Desktop/Thermal_map_camera/Heatmaps_long"
+path_data = "raw data location"
+raster_path = "raster locations for output"
+heat_path = "picture location for output"
 
 # ----------------------- Data Importing and Processing 
+# Generates a dataframe combining all camera 
 if (generate_frame){
   setwd(path_data)
   proccess <- function(test_mod){
@@ -52,7 +52,7 @@ if (generate_frame){
     out_file <- as.data.frame(out_file)
     
     for (item in 1:(nrow(out_file))){
-      out_file[item,2] <- as.numeric(str_split(out_file[item,2],"Â")[[1]][1])
+      out_file[item,2] <- as.numeric(str_split(out_file[item,2],"Ã‚")[[1]][1])
     }
     
     name = str_split(file.names[i], pattern = ".csv")[[1]][1]
@@ -203,99 +203,6 @@ generate_heat_map <- function(merged_frame, points, date, low_temp=-2, high_temp
   
 }
 
-# ------------------- Heat Map Generation
-
-generate_heat_map(merged_frame, points,"2019-09-07")
-generate_heat_map(merged_frame, points,"2019-09-08")
-generate_heat_map(merged_frame, points,"2019-09-09")
-generate_heat_map(merged_frame, points,"2019-09-10")
-generate_heat_map(merged_frame, points,"2019-09-11")
-generate_heat_map(merged_frame, points,"2019-09-12")
-generate_heat_map(merged_frame, points,"2019-09-13")
-generate_heat_map(merged_frame, points,"2019-09-14")
-
-# ----------------- Heat Mapping for time
-date_get="2019-08-10"
-setwd("C:/Users/dmcallister/Desktop/Thermal_map_camera/Camera Data")
-file.names <- dir(pattern ="csv")
-
-date_frame_final <- c()
-for (i in 1:length(file.names)){
-  date_frame <- read.csv(file.names[i])
-  
-  dates <- date_frame$CreateDate
-  temp  <- date_frame$AmbientTemperature
-  
-  day = c()
-  hour = c()
-  
-  for (j in 1:length(dates)){
-    val = str_split(dates[j], pattern=" ")
-    if(str_split(val[[1]][2], patter =":")[[1]][3] == "00"){
-      day = rbind(day, val[[1]][1])
-      hour = rbind(hour, val[[1]][2])  
-    }
-  }
-  
-  out_frame <- as.data.frame(cbind(day,hour,temp))
-  out_frame$V1 <- as.Date(out_frame$V1,  format = "%Y:%m:%d")
-  
-  combine = out_frame[out_frame$V1 == date_get & 
-              (out_frame$V2 == "15:00:00" |  out_frame$V2 == "16:00:00"), ]
-  
-  if(i==1){
-    date_frame_final = combine
-  }else{
-    date_frame_final = cbind(date_frame_final,combine[3])
-  }
-}
-
-
-frame_1 <- date_frame_final[1,-2]
-frame_2 <- date_frame_final[2,-2]
-setwd("C:/Users/dmcallister/Desktop/Thermal_map_camera/hourlymaps")
-
-test <- generate_heat_map(frame_1, points,date_get,low_temp = 0, high_temp = 12, 
-                  raster=TRUE, single=TRUE, save=TRUE, inter = TRUE)
-test$raster_img
-test2 <- generate_heat_map(frame_2, points,date_get,low_temp = 0, high_temp = 12, 
-                          raster=TRUE, single=TRUE, save=TRUE)
-
-# ------------------- K means Clustering 
-library(cluster)
-training_set = heat_frame 
-
-training_set = scale(training_set)
-test_set = scale(test_set)
-
-set.seed(29)
-kmeans = kmeans(x = training_set, centers = 8)
-y_kmeans = kmeans$cluster
-
-clusplot(training_set,
-         y_kmeans,
-         lines = 0,
-         shade = TRUE,
-         color = TRUE,
-         labels = 2,
-         plotchar = FALSE,
-         span = TRUE,
-         main = paste('Temperature Clustering'),
-         xlab = 'Normalized Easting Value',
-         ylab = 'Normalized Northing Value')
-
-
-# ----------------------- Plotting Facet Grid 
-
-df <- melt(merged_frame ,  id.vars = 'V1', variable.name = 'series')
-
-ggplot(df, aes(V1,value)) + 
-  geom_point(size=.8, color="#42a4f5") +
-  coord_cartesian(ylim = c(-50, 15))+ 
-  ylab("Temperature (C)")+
-  xlab("Time") +
-  facet_wrap(variable ~ .)
-
 # -------------------- SWI value 
 SWI_cal <- function(frame, date1, date2){
 
@@ -318,14 +225,12 @@ SWI_cal <- function(frame, date1, date2){
 sep_2019 <- SWI_cal(merged_frame, "2019-09-01", "2020-10-01")
 
 # ------------------- Mean annual temp 
-setwd("C:/Users/dmcallister/Desktop/Thermal_map_camera/")
-
 ClimNA <- list.files(getwd(), "*\\.asc", recursive=FALSE, full.names=TRUE,  ignore.case = TRUE) 
 r1 <- raster(ClimNA, package="raster", native=TRUE)
 writeRaster(r1,"test" ,format="GTiff")
 raster = raster("test.tif")
 
-plot(raster, main = "MAT Temp (°C)")
+plot(raster, main = "MAT Temp (Â°C)")
 values(raster)
 
 
