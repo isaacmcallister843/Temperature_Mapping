@@ -15,7 +15,7 @@ The data was collected by external teams and was presented as a csv and after pr
 |Time|Easting|Northing|Temperature Location 1 (C)|Temperature Location 2 (C)|.......|Temperature Location 32 (C)|
 |----|-------|--------|--------------------------|--------------------------|-------|---------------------------|
 
-Each row could be accessed by the KNN algorithem and create a heat map for a desired time.
+Each row could be accessed by the KNN algorithem and create a heatmap for a desired time.
 
 ## Features 
 - Fast and easy heatmap generation for time series data
