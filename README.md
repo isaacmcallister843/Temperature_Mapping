@@ -1,6 +1,6 @@
 # Temperature_Mapping
 
-![2019-09-07](https://user-images.githubusercontent.com/78721353/108019398-02c04300-6fcf-11eb-8230-bed01b5c843a.png)
+![2019-09-10](https://user-images.githubusercontent.com/78721353/108019527-474bde80-6fcf-11eb-83b0-63e0d6051483.png)
 ## Figure 1: Example Heatmap Using KNN
 
 ## Motivation 
