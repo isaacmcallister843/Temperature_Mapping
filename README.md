@@ -12,8 +12,8 @@ Since I worked in a team to develop these products for large clients I do not ha
 ## Data and Modeling
 The data was collected by external teams and was presented as a csv and after proccesing was in the following columns: 
 
-|Time|Easting|Northing|Temperature Location 1 (C)|Temperature Location 2 (C)|.......|Temperature Location 32 (C)|
-|----|-------|--------|--------------------------|--------------------------|-------|---------------------------|
+|Time|Temperature Location 1 (C)|Temperature Location 2 (C)|.......|Temperature Location 32 (C)|
+|----|--------------------------|--------------------------|-------|---------------------------|
 
 Each row could be accessed by the KNN algorithem and create a heatmap for a desired time.
 
